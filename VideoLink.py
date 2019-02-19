@@ -5,19 +5,13 @@ class VideoLink(scrapy.Spider):
         'youtube.com'
         ]
     start_urls = [
-        'https://www.youtube.com/' 
+        'https://www.youtube.com/watch?v=fF1exDY0ofs' 
     ]
 
 
     def parse(self, response):
-        self.logger.info('Parse function called on %s', response.url),
-
-        for i in response.css('items/ytd-compact-video-renderer.style-scope'):
+        
+        for i in response.css('div.content-wrapper'):
             yield {
-                'id': i.css('a::attr("href")').get(),
-                'ciccia': 'cuccu'
+                'id': i.css('a.content-link.spf-link.yt-uix-sessionlink::attr(href)').get(),
             }
-
-        next_page = response.css('li.next a::attr("href")').get()
-        if next_page is not None:
-            yield response.follow(next_page, self.parse)
