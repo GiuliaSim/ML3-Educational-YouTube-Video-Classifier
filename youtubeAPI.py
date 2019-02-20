@@ -22,8 +22,14 @@ CLIENT_SECRETS_FILE = "client_secret.json"
 SCOPES = ['https://www.googleapis.com/auth/youtube.force-ssl']
 API_SERVICE_NAME = 'youtube'
 API_VERSION = 'v3'
-INPUT_FILE = 'D:\\giuly\\Desktop\\Progetto ML3 YouTube\\ML5-MINERVA-EducationaVideosClassifier-master\\dataset.csv'
-OUTPUT_FILE = 'data\\old_data_update.csv'
+
+#Old data
+#INPUT_FILE = 'D:\\giuly\\Desktop\\Progetto ML3 YouTube\\ML5-MINERVA-EducationaVideosClassifier-master\\dataset.csv'
+#OUTPUT_FILE = 'data\\old_data_update.csv'
+
+#New data
+INPUT_FILE = 'data\\edu_videos_clean.csv'
+OUTPUT_FILE = 'data\\edu_videos_update.csv'
 
 def get_authenticated_service():
   flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRETS_FILE, SCOPES)
@@ -56,11 +62,11 @@ def videos_list_by_id(client, **kwargs):
     writer = csv.writer(output)
     for video in videos:
       videoId = video['id']
-      title = video['snippet']['title']
-      author = video['snippet']['channelTitle']
-      viewCount = video['statistics']['viewCount']
-      likes = video['statistics']['likeCount']
-      dislikes = video['statistics']['dislikeCount']
+      title = '' if 'title' not in video['snippet'] else video['snippet']['title']
+      author = '' if 'channelTitle' not in video['snippet'] else video['snippet']['channelTitle']
+      viewCount = '' if 'viewCount' not in video['statistics'] else video['statistics']['viewCount']
+      likes = '' if 'likeCount' not in video['statistics'] else video['statistics']['likeCount']
+      dislikes = '' if 'dislikeCount' not in video['statistics'] else video['statistics']['dislikeCount']
       tags = '' if 'tags' not in video['snippet'] else ','.join(video['snippet']['tags'])
       duration = isodate.parse_duration(video['contentDetails']['duration'])
       lengthSeconds = duration.total_seconds()
@@ -72,8 +78,10 @@ def get_videos_id():
   videosID = []
   with open(INPUT_FILE, encoding="utf8") as input:
     for row in csv.reader(input):
-      videoId = row[0].replace('/watch?v=','')
-      videosID.append(videoId)
+      if row:
+        #print(row)
+        videoId = row[0].replace('/watch?v=','')
+        videosID.append(videoId)
 
   f = lambda A, n=50: [A[i:i+n] for i in range(0, len(A), n)]
   splitted_videos = f(videosID)
