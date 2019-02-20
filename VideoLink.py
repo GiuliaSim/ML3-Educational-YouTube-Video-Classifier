@@ -14,4 +14,5 @@ class VideoLink(scrapy.Spider):
         for i in response.css('div.content-wrapper'):
             yield {
                 'id': i.css('a.content-link.spf-link.yt-uix-sessionlink::attr(href)').get(),
+                'isEducational': '0',
             }
