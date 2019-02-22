@@ -11,3 +11,5 @@ data/old_data_update.csv
 data/quotes.csv
 data/quotes_clean.csv
 *.bmp
+*.pb
+*.pyc
