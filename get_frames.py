@@ -10,7 +10,8 @@ frame_name = "{}{}.bmp"
 
 def get_frames(videoId):
 	#download del video
-	os.system("youtube-dl " + url.format(videoId) + " -o " + name_file_vieo)
+	#os.system("youtube-dl -f worst " + url.format(videoId) + " -o " + name_file_vieo)
+	os.system("youtube-dl  " + url.format(videoId) + " -o " + name_file_vieo)
 
 	#creazione della folder dove verranno inseriti i frames
 	if not os.path.exists(frames_dir.format(videoId)):

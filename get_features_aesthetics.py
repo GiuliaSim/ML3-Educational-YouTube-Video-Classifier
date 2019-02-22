@@ -6,8 +6,6 @@ import os
 import csv
 
 INPUT_FILE = "data\\dataset.csv"
-url = 'https://www.youtube.com/watch?v={}'
-name_file_vieo = "temp.mp4"
 frames_dir = "frames\\{}\\"
 frame_name = "{}{}.bmp"
 
