@@ -39,7 +39,8 @@ def get_frames(videoId):
 	cap.release()
 
 	#il video viene eliminato
-	os.remove(name_file_vieo)
+	if os.path.exists(name_file_vieo):
+		os.remove(name_file_vieo)
 
 if __name__ == '__main__':
 	with open(INPUT_FILE, encoding="utf8") as input:
