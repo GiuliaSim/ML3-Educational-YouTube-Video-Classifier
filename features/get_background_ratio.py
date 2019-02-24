@@ -6,7 +6,7 @@ import cv2 as cv2
 
 frames_dir = "frames\\{}\\"
 file_name="temp.mp4"
-frameBg_name="temp-fram.jpg"
+frameSg_name="temp-fram.jpg"
 
 def get_background_lightning_ratio(videoId):
     b = []
@@ -26,12 +26,11 @@ def subtract_background(image_path, videoId):
 	fgbg = cv2.createBackgroundSubtractorMOG2()
 	frame = cv2.imread(image_path)
 	fgmask = fgbg.apply(frame)
-	cv2.imwrite((frames_dir.format(videoId) + frameBg_name), fgmask)
-	frameBg = cv2.imread(frames_dir.format(videoId) + frameBg_name)
-
-	luminositaBack = calcoloBightness(frameBg)
+	cv2.imwrite((frames_dir.format(videoId) + frameSg_name), fgmask)
+	frameSg = cv2.imread(frames_dir.format(videoId) + frameSg_name)
 	luminositaFrame = calcoloBightness(frame)
-	luminotsitaSogetto = (luminositaFrame - luminositaBack)
+	luminotsitaSogetto = calcoloBightness(frameSg)
+	luminositaBack = (luminositaFrame - luminotsitaSogetto)
 
 	if(luminositaBack != 0):
 		a = math.pow((luminotsitaSogetto / luminositaBack),2)
