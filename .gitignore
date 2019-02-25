@@ -13,3 +13,5 @@ data/quotes_clean.csv
 *.bmp
 *.pb
 *.pyc
+*.mp4
+*.jpg

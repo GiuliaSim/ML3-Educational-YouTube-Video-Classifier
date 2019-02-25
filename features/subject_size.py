@@ -34,8 +34,9 @@ def get_subject_size_frame(image_path):
 
 def get_subject_size(videoId):
 	s = []
-	for file in os.listdir(frames_dir.format(videoId)):
-		if file.endswith(".bmp"):
-			image_path = os.path.join(frames_dir.format(videoId), file)
-			s.append(get_subject_size_frame(image_path))
+	if os.path.exists(frames_dir.format(videoId)):
+		for file in os.listdir(frames_dir.format(videoId)):
+			if file.endswith(".bmp"):
+				image_path = os.path.join(frames_dir.format(videoId), file)
+				s.append(get_subject_size_frame(image_path))
 	return statistics.mean(s)

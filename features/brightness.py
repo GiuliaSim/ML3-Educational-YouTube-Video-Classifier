@@ -22,8 +22,9 @@ def get_brightness_frame(image_path):
 
 def get_brightness(videoId):
 	b = []
-	for file in os.listdir(frames_dir.format(videoId)):
-		if file.endswith(".bmp"):
-			image_path = os.path.join(frames_dir.format(videoId), file)
-			b.append(get_brightness_frame(image_path))
+	if os.path.exists(frames_dir.format(videoId)):
+		for file in os.listdir(frames_dir.format(videoId)):
+			if file.endswith(".bmp"):
+				image_path = os.path.join(frames_dir.format(videoId), file)
+				b.append(get_brightness_frame(image_path))
 	return statistics.mean(b)

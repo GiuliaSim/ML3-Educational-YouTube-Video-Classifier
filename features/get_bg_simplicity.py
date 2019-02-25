@@ -9,12 +9,13 @@ frames_dir = "frames\\{}\\"
 
 def get_simplicity_feature(videoId):
 	b = []
-	print(datetime.datetime.now())
-	for file in os.listdir(frames_dir.format(videoId)):
-		if file.endswith(".bmp"):
-			image_path = os.path.join(frames_dir.format(videoId), file)
-			b.append(simplicity_frame(image_path))
-	print(datetime.datetime.now())
+	#print(datetime.datetime.now())
+	if os.path.exists(frames_dir.format(videoId)):
+		for file in os.listdir(frames_dir.format(videoId)):
+			if file.endswith(".bmp"):
+				image_path = os.path.join(frames_dir.format(videoId), file)
+				b.append(simplicity_frame(image_path))
+	#print(datetime.datetime.now())
 	
 	return statistics.mean(b)
 

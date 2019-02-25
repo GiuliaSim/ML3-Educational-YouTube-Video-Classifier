@@ -10,16 +10,17 @@ frameSg_name="temp-fram.jpg"
 
 def get_background_lightning_ratio(videoId):
     b = []
-    for file in os.listdir(frames_dir.format(videoId)):
-        if file.endswith(".bmp"):
-            image_path = os.path.join(frames_dir.format(videoId), file)
-            print (image_path)
-            #img = cv2.imread(image_path)
-            #img = cv2.cvtColor(image_path, cv2.COLOR_BGR2GRAY)
-            iesimo = subtract_background(image_path, videoId)
-            if (iesimo is not None):
-            	b.append(iesimo)            
-    print ("totale :")
+    if os.path.exists(frames_dir.format(videoId)):
+	    for file in os.listdir(frames_dir.format(videoId)):
+	        if file.endswith(".bmp"):
+	            image_path = os.path.join(frames_dir.format(videoId), file)
+	            #print (image_path)
+	            #img = cv2.imread(image_path)
+	            #img = cv2.cvtColor(image_path, cv2.COLOR_BGR2GRAY)
+	            iesimo = subtract_background(image_path, videoId)
+	            if (iesimo is not None):
+	            	b.append(iesimo)            
+    #print ("totale :")
     return statistics.mean(b)
 
 def subtract_background(image_path, videoId):
@@ -36,7 +37,7 @@ def subtract_background(image_path, videoId):
 		a = math.pow((luminotsitaSogetto / luminositaBack),2)
 		a = math.sqrt(a)
 		b = np.log2(a)
-		print(b)
+		#print(b)
 	return b
        	
 def calcoloBightness(image):
