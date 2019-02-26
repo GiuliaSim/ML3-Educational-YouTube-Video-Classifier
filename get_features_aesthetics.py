@@ -11,9 +11,11 @@ import time
 import collections
 import concurrent.futures
 from pprint import pprint
+import json
 
 
 INPUT_FILE = "data\\dataset.csv"
+OUTPUT_FILE = "data\\dataset_aesthetic.csv"
 frames_dir = "frames\\{}\\"
 frame_name = "{}{}.bmp"
 
@@ -26,8 +28,8 @@ def get_features(row):
 	if row[0] != 'videoId':
 		videoId = row[0].replace('/watch?v=','')
 		if os.path.exists(frames_dir.format(videoId)):
-			print(f'Process {os.getpid()} working record {videoId}')
-			time.sleep(1)
+			print(f'Process {os.getpid()} working record {videoId} at {time.strftime("%H:%M")}')
+			#time.sleep(1)
 			b = get_brightness(videoId)
 			s = get_subject_size(videoId)
 			t = get_text_density(videoId)
@@ -43,9 +45,17 @@ def get_features(row):
 				'background_lightning_ratio': br,
 				'background_color_simplicity': bs
 			}
-			print(f'Process {os.getpid()} done procesing record {videoId}')
+			print(f'Process {os.getpid()} done procesing record {videoId} at {time.strftime("%H:%M")}')
 			return result
-		return {'videoId': videoId}
+		return {
+				'videoId': videoId,
+				'brightness': 'None',
+				'subject_size': 'None',
+				'text_density': 'None',
+				'entropy': 'None',
+				'background_lightning_ratio': 'None',
+				'background_color_simplicity': 'None'
+			}
 
 if __name__ == '__main__':
 	start = time.time()
@@ -54,7 +64,25 @@ if __name__ == '__main__':
 			result = executor.map(get_features, csv.reader(input))
 	end = time.time()
 	print(f'\nTime to complete: {format_time(start, end)}\n')
-	pprint(tuple(result))		
+	
+	#pprint(tuple(result))		
+	data_str = json.dumps(tuple(result))
+	data_aesthetic = json.loads(data_str)
+
+	#salva il risultato in un file csv
+	with open(OUTPUT_FILE, 'w', newline='') as output:
+		writer = csv.writer(output)
+		count = 0
+		for elem in data_aesthetic:
+			if elem is not None:
+				if count == 0:
+					header = elem.keys()
+					writer.writerow(header)
+					count += 1
+				writer.writerow(elem.values())
+				#writer.writerow(elem)
+		print(f'Result saved in: {OUTPUT_FILE}')
+	
 
 # if __name__ == '__main__':
 # 	with open(INPUT_FILE, encoding="utf8") as input:
