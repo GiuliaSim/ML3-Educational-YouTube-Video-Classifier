@@ -7,7 +7,7 @@ import concurrent.futures
 INPUT_FILE = "data\\dataset.csv"
 url = 'https://www.youtube.com/watch?v={}'
 audios_dir = "audios"
-name_file_audio = "{}\\{}_temp.m4a"
+name_file_audio = "{}\\{}\\{}_temp.wav"
 
 def get_audio(videoId):	
 	#download del audio
