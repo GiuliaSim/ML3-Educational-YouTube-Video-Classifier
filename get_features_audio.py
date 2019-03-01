@@ -1,5 +1,5 @@
 import scipy.io.wavfile as wav
-from scipy.io.wavfile import _read_riff_chunk
+from scipy.fftpack import fft
 import numpy as np
 import speechpy
 import os
@@ -8,8 +8,11 @@ import concurrent.futures
 import csv
 from os.path import getsize
 from pprint import pprint
+import json
+import collections
 
 INPUT_FILE = "data\\dataset.csv"
+OUTPUT_FILE = "data\\dataset_audio.csv"
 audios_dir = "audios\\"
 name_file_audio = "{}\\{}_temp.wav"
 
@@ -26,7 +29,17 @@ def get_features(row):
 			print(f'Process {os.getpid()} working record {videoId} at {time.strftime("%H:%M")}')
 
 			fs, signal = wav.read(file_name)
+			#print(signal.dtype) #int16
+			#print(signal.shape)
+			#fft_out = fft(signal)
+			#prova = fft_out.mean()
+			#print(signal.shape, ' AAA ',videoId,prova)
 			signal = signal[:,0]
+			#print(signal.shape)
+			#fft_out = fft(signal)
+			#prova = fft_out.mean()
+			#print(signal.shape, ' BBB ',videoId,prova)
+
 
 			# Example of pre-emphasizing:
 			# Preemphasising on the signal.
@@ -41,49 +54,57 @@ def get_features(row):
 			# Example of FFT Spectrum:
 			# Calculation of the Fast Fourier Transform.
 			fft_spectrum = speechpy.processing.fft_spectrum(frames, fft_points=512)
+			voice_frequencies = fft_spectrum.mean()
 			#print('Fast Fourier Transform=', fft_spectrum.shape)
 
 			# Example of extracting power spectrum:
 			# Power Spectrum calculation.
-			power_spectrum = speechpy.processing.power_spectrum(frames, fft_points=512)
+			#power_spectrum = speechpy.processing.power_spectrum(frames, fft_points=512)
 			#print('power spectrum shape=', power_spectrum.shape)
 
 			# Example of extracting log power spectrum:
 			# Log Power Spectrum calculation.
-			log_power_spectrum = speechpy.processing.log_power_spectrum(frames, fft_points=512, normalize=True)
+			#log_power_spectrum = speechpy.processing.log_power_spectrum(frames, fft_points=512, normalize=True)
 			#print('log power spectrum shape=', log_power_spectrum.shape)
 
 			############# Extract MFCC features #############
 			mfcc = speechpy.feature.mfcc(signal, sampling_frequency=fs, frame_length=0.020, frame_stride=0.01,
 			             num_cepstral=13, num_filters=40, fft_length=512, low_frequency=0, high_frequency=None)
+
+			#viene calcolato il valore medio di ogni coefficiente 
+			i_vector = mfcc.mean(0)
+			i_vector_str = np.array2string(i_vector, separator=',', max_line_width=np.inf)
 			
-			mfcc_cmvn = speechpy.processing.cmvn(mfcc,variance_normalization=True)
+			#mfcc_cmvn = speechpy.processing.cmvn(mfcc,variance_normalization=True)
 			#print('mfcc(mean + variance normalized) feature shape=', mfcc_cmvn.shape)
 
-			mfcc_cmvnw = speechpy.processing.cmvnw(mfcc,win_size=301,variance_normalization=True)
+			#mfcc_cmvnw = speechpy.processing.cmvnw(mfcc,win_size=301,variance_normalization=True)
 			#print('mfcc(mean + variance normalized) over the sliding window feature shape=', mfcc_cmvnw.shape)
 
-			mfcc_feature_cube = speechpy.feature.extract_derivative_feature(mfcc)
+			#mfcc_feature_cube = speechpy.feature.extract_derivative_feature(mfcc)
 			#print('mfcc feature cube shape=', mfcc_feature_cube.shape)
 
 			############# Extract logenergy features #############
-			logenergy = speechpy.feature.lmfe(signal, sampling_frequency=fs, frame_length=0.020, frame_stride=0.01,
-			             num_filters=40, fft_length=512, low_frequency=0, high_frequency=None)
-			logenergy_feature_cube = speechpy.feature.extract_derivative_feature(logenergy)
+			#logenergy = speechpy.feature.lmfe(signal, sampling_frequency=fs, frame_length=0.020, frame_stride=0.01,
+			#             num_filters=40, fft_length=512, low_frequency=0, high_frequency=None)
+			#logenergy_feature_cube = speechpy.feature.extract_derivative_feature(logenergy)
 			#print('logenergy features=', logenergy.shape)
 
 			print(f'Process {os.getpid()} done procesing record {videoId} at {time.strftime("%H:%M")}')
 
 			return {
 				'videoId': videoId,
-				'fft_spectrum': fft_spectrum.shape,
-				'power_spectrum': power_spectrum.shape,
-				'log_power_spectrum': log_power_spectrum.shape,
-				'mfcc': mfcc.shape,
-				'cmvn': mfcc_cmvn.shape,
-				'cmvnw': mfcc_cmvnw.shape,
-				'mfcc_feature_cube_shape': mfcc_feature_cube.shape,
-				'logenergy_features': logenergy.shape
+				#'voice_frequencies': voice_frequencies,
+				#'non_voice_frequencies': non_voice_frequencies,
+				#'fft_spectrum': fft_spectrum.shape,
+				#'power_spectrum': power_spectrum.shape,
+				#'log_power_spectrum': log_power_spectrum.shape,
+				'mfcc_shape': mfcc.shape,
+				'mfcc_mean': i_vector_str
+				#'mfcc_cmvn': mfcc_cmvn.shape,
+				#'mfcc_cmvnw': mfcc_cmvnw.shape,
+				#'mfcc_feature_cube_shape': mfcc_feature_cube.shape,
+				#'logenergy_features': logenergy.shape
 			}
 		return {'videoId':videoId}
 
@@ -94,8 +115,25 @@ if __name__ == '__main__':
 			result = executor.map(get_features, csv.reader(input))
 	end = time.time()
 
-	pprint(tuple(result))
-	print(f'\nTime to complete: {format_time(start, end)}\n')	
+	#pprint(tuple(result))
+	print(f'\nTime to complete: {format_time(start, end)}\n')
+
+	data_str = json.dumps(tuple(result))
+	data_audio = json.loads(data_str)	
+
+	#salva il risultato in un file csv
+	with open(OUTPUT_FILE, 'w', newline='') as output:
+		writer = csv.writer(output)
+		count = 0
+		for elem in data_audio:
+			if elem is not None:
+				if count == 0:
+					header = elem.keys()
+					writer.writerow(header)
+					count += 1
+				writer.writerow(elem.values())
+				#writer.writerow(elem)
+		print(f'Result saved in: {OUTPUT_FILE}')
 
 # if __name__ == '__main__':
 # 	start = time.time()
