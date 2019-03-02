@@ -1,5 +1,6 @@
 import scipy.io.wavfile as wav
 from scipy.fftpack import fft
+from scipy.signal import butter, lfilter
 import numpy as np
 import speechpy
 import os
@@ -10,11 +11,14 @@ from os.path import getsize
 from pprint import pprint
 import json
 import collections
+import matplotlib.pyplot as plt
 
 INPUT_FILE = "data\\dataset.csv"
 OUTPUT_FILE = "data\\dataset_audio.csv"
 audios_dir = "audios\\"
 name_file_audio = "{}\\{}_temp.wav"
+lo_filter,hi_filter = 85,255
+#lo_filter,hi_filter = 0.25,0.75
 
 def format_time(start,end):
 	minutes, seconds = divmod(end - start, 60) 
@@ -31,16 +35,35 @@ def get_features(row):
 			fs, signal = wav.read(file_name)
 			#print(signal.dtype) #int16
 			#print(signal.shape)
-			#fft_out = fft(signal)
-			#prova = fft_out.mean()
-			#print(signal.shape, ' AAA ',videoId,prova)
+			#signal = signal[:,0]
+			#plt.figure(1)
+			#plt.title('signal')
+			#plt.plot(signal)
+
+			fft_out = fft(signal)
+			#fft_out = np.abs(fft_out)
+			print('frequencies_mean',fft_out.mean())
+			b_band,a_band = butter(N=6, Wn=[2*lo_filter/fs, 2*hi_filter/fs], btype='bandpass')
+			x = lfilter(b_band,a_band,signal)
+			x = np.abs(x)
+			voice_frequencies = x.mean()
+			print('voice_frequencies',voice_frequencies)
+			#plt.show()
+
+			b_high,a_high = butter(N=6, Wn=hi_filter/(fs/2), btype='highpass') # ButterWorth filter 4350
+			filteredSignal = lfilter(b_high,a_high,signal)
+			b_low,a_low = butter(N=6, Wn=lo_filter/(fs/4), btype='lowpass')
+			x = lfilter(b_low,a_low,filteredSignal)
+			x = np.abs(x)
+			non_voice_frequencies = x.mean()
+			print('non_voice_frequencies',non_voice_frequencies)
+
+			#fft_out2 = fft(signal,1024)
+			#x2 = lfilter(b,a,fft_out2)
+			#print(x2.mean())
+
 			signal = signal[:,0]
-			#print(signal.shape)
-			#fft_out = fft(signal)
-			#prova = fft_out.mean()
-			#print(signal.shape, ' BBB ',videoId,prova)
-
-
+			
 			# Example of pre-emphasizing:
 			# Preemphasising on the signal.
 			# This is a preprocessing step.
@@ -49,12 +72,11 @@ def get_features(row):
 			# Example of staching frames: 
 			# Create stacking frames from the raw signal.
 			frames = speechpy.processing.stack_frames(signal, sampling_frequency=fs, frame_length=0.020, frame_stride=0.01, filter=lambda x: np.ones((x,)),
-			         zero_padding=True)
+					 zero_padding=True)
 
 			# Example of FFT Spectrum:
 			# Calculation of the Fast Fourier Transform.
 			fft_spectrum = speechpy.processing.fft_spectrum(frames, fft_points=512)
-			voice_frequencies = fft_spectrum.mean()
 			#print('Fast Fourier Transform=', fft_spectrum.shape)
 
 			# Example of extracting power spectrum:
@@ -69,7 +91,7 @@ def get_features(row):
 
 			############# Extract MFCC features #############
 			mfcc = speechpy.feature.mfcc(signal, sampling_frequency=fs, frame_length=0.020, frame_stride=0.01,
-			             num_cepstral=13, num_filters=40, fft_length=512, low_frequency=0, high_frequency=None)
+						 num_cepstral=13, num_filters=40, fft_length=512, low_frequency=0, high_frequency=None)
 
 			#viene calcolato il valore medio di ogni coefficiente 
 			i_vector = mfcc.mean(0)
