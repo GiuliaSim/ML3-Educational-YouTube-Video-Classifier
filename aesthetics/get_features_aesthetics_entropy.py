@@ -20,7 +20,7 @@ def format_time(start,end):
 	
 
 if __name__ == '__main__':
-	with open(INPUT_FILE, encoding="utf8") as input, open(OUTPUT_FILE, 'w+', newline='') as output:
+	with open(INPUT_FILE, encoding="utf8") as input, open(OUTPUT_FILE, 'w', newline='') as output:
 		writer = csv.writer(output)
 		writer.writerow(['videoId','entropy'])
 		start = time.time()
