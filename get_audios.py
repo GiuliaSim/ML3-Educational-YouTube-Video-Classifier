@@ -12,7 +12,7 @@ name_file_audio = "{}\\{}\\{}_temp.wav"
 def get_audio(videoId):	
 	#download del audio
 	#os.system(f'youtube-dl -x --extract-audio --audio-format wav {url.format(videoId)} ')
-	os.system(f'youtube-dl -x --extract-audio --audio-format wav {url.format(videoId)} -o {name_file_audio.format(audios_dir,videoId)}')
+	os.system(f'youtube-dl -x --extract-audio --audio-format wav {url.format(videoId)} -o {name_file_audio.format(audios_dir, videoId, videoId)}')
 
 if __name__ == '__main__':
 	with open(INPUT_FILE, encoding="utf8") as input:
