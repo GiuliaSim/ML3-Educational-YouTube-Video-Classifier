@@ -7,7 +7,7 @@ import cv2
 import os
 import statistics
 
-frames_dir = "frames\\{}\\"
+frames_dir = "..\\frames\\{}\\"
 EAST_PATH = "frozen_east_text_detection.pb"
 
 def get_text_density_frame(image_path):
@@ -173,4 +173,5 @@ def get_text_density(videoId):
 			if file.endswith(".bmp"):
 				image_path = os.path.join(frames_dir.format(videoId), file)
 				t.append(get_text_density_frame(image_path))
-	return statistics.mean(t)
+    mean = (statistics.mean(t) if t else 'None')
+	return mean

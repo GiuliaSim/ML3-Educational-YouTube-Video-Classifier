@@ -7,7 +7,7 @@ import statistics
 
 
 
-frames_dir = "frames\\{}\\"
+frames_dir = "..\\frames\\{}\\"
 
 def get_entropy(videoId):
     b = []
@@ -20,7 +20,8 @@ def get_entropy(videoId):
               img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
               b.append(entropy(img))
     #print ("totale :")
-    return statistics.mean(b)
+    mean = (statistics.mean(b) if b else 'None')
+    return mean
 
     
 def entropy(img):

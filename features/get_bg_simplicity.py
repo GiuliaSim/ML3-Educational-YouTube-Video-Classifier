@@ -5,7 +5,7 @@ import math
 import statistics
 import cv2 as cv2
 
-frames_dir = "D:\\ProgettoMLSII\\frames\\{}\\"
+frames_dir = "..\\frames\\{}\\"
 
 def get_simplicity_feature(videoId):
 	b = []
@@ -17,7 +17,8 @@ def get_simplicity_feature(videoId):
 				b.append(simplicity_frame(image_path))
 	#print(datetime.datetime.now())
 	
-	return statistics.mean(b)
+    mean = (statistics.mean(b) if b else 'None')
+	return mean
 
 def simplicity_frame(frame_path):
 	frame = cv2.imread(frame_path, 1)

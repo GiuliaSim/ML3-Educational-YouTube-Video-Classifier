@@ -4,7 +4,7 @@ import math
 import statistics
 import cv2 as cv2
 
-frames_dir = "frames\\{}\\"
+frames_dir = "..\\frames\\{}\\"
 file_name="temp.mp4"
 frameSg_name="temp-fram.jpg"
 
@@ -21,7 +21,8 @@ def get_background_lightning_ratio(videoId):
 	            if (iesimo is not None):
 	            	b.append(iesimo)            
     #print ("totale :")
-    return statistics.mean(b)
+    mean = (statistics.mean(b) if b else 'None')
+    return mean
 
 def subtract_background(image_path, videoId):
 	fgbg = cv2.createBackgroundSubtractorMOG2()
