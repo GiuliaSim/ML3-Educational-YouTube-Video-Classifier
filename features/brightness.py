@@ -2,7 +2,7 @@ import cv2
 import os
 import statistics
 
-frames_dir = "frames\\{}\\"
+frames_dir = "..\\frames\\{}\\"
 
 def get_brightness_frame(image_path):
 	image = cv2.imread(image_path)
@@ -27,4 +27,5 @@ def get_brightness(videoId):
 			if file.endswith(".bmp"):
 				image_path = os.path.join(frames_dir.format(videoId), file)
 				b.append(get_brightness_frame(image_path))
-	return statistics.mean(b)
+	mean = (statistics.mean(b) if b else 'None')
+	return mean

@@ -17,3 +17,4 @@ data/quotes_clean.csv
 *.jpg
 *.wav
 prova.py
+data/aesthetics/dataset_aesthetic_brightness_parziale.csv
