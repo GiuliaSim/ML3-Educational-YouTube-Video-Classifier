@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
 		count = 0
 		for row in csv.reader(input):
-			if count >= 224 and count < 350 and row[0] != 'videoId':
+			if count >= 227 and row[0] != 'videoId':
 				videoId = row[0].replace('/watch?v=','')
 				t = get_text_density(videoId)
 				print(f'[{videoId}] Text density: ',t)
