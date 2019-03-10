@@ -17,7 +17,7 @@ def get_simplicity_feature(videoId):
 				b.append(simplicity_frame(image_path))
 	#print(datetime.datetime.now())
 	
-    mean = (statistics.mean(b) if b else 'None')
+	mean = (statistics.mean(b) if b else 'None')
 	return mean
 
 def simplicity_frame(frame_path):

@@ -2,7 +2,7 @@ import cv2
 import os
 import statistics
 
-frames_dir = "frames\\{}\\"
+frames_dir = "..\\frames\\{}\\"
 
 def get_subject_size_frame(image_path):
 	image = cv2.imread(image_path)
@@ -39,4 +39,6 @@ def get_subject_size(videoId):
 			if file.endswith(".bmp"):
 				image_path = os.path.join(frames_dir.format(videoId), file)
 				s.append(get_subject_size_frame(image_path))
-	return statistics.mean(s)
+	
+	mean = (statistics.mean(s) if s else 'None')
+	return mean
