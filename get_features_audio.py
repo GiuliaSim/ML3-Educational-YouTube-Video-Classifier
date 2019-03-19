@@ -184,29 +184,29 @@ if __name__ == '__main__':
 		writer = csv.writer(output)
 		#writer.writerow(['videoId,'voice_frequencies','non_voice_frequencies'])
 
-		videoId = 'Hnl4AyEO1I8'
-		print(f'[{videoId}] Inizio esecuzione..')
-		result = get_features(videoId)
-		voice_frequencies = 'None' if not 'voice_frequencies' in result else result['voice_frequencies']
-		non_voice_frequencies = 'None' if not 'non_voice_frequencies' in result else result['non_voice_frequencies']
-		print(f'[{videoId}] voice_frequencies: ',voice_frequencies)
-		print(f'[{videoId}] non_voice_frequencies: ',non_voice_frequencies)
-		writer.writerow([videoId,voice_frequencies,non_voice_frequencies])
-		output.flush()
+		# videoId = 'Hnl4AyEO1I8'
+		# print(f'[{videoId}] Inizio esecuzione..')
+		# result = get_features(videoId)
+		# voice_frequencies = 'None' if not 'voice_frequencies' in result else result['voice_frequencies']
+		# non_voice_frequencies = 'None' if not 'non_voice_frequencies' in result else result['non_voice_frequencies']
+		# print(f'[{videoId}] voice_frequencies: ',voice_frequencies)
+		# print(f'[{videoId}] non_voice_frequencies: ',non_voice_frequencies)
+		# writer.writerow([videoId,voice_frequencies,non_voice_frequencies])
+		# output.flush()
 
-		# count = 0
-		# for row in csv.reader(input):
-		# 	if count > 252 and row[0] != 'videoId':
-		# 		videoId = row[0].replace('/watch?v=','')
-		# 		print(f'[{videoId}] Inizio esecuzione..')
-		# 		result = get_features(videoId)
-		# 		voice_frequencies = 'None' if not 'voice_frequencies' in result else result['voice_frequencies']
-		# 		non_voice_frequencies = 'None' if not 'non_voice_frequencies' in result else result['non_voice_frequencies']
-		# 		print(f'[{videoId}] voice_frequencies: ',voice_frequencies)
-		# 		print(f'[{videoId}] non_voice_frequencies: ',non_voice_frequencies)
-		# 		writer.writerow([videoId,voice_frequencies,non_voice_frequencies])
-		# 		output.flush()
-		# 	count += 1
+		count = 0
+		for row in csv.reader(input):
+			if count > 252 and row[0] != 'videoId':
+				videoId = row[0].replace('/watch?v=','')
+				print(f'[{videoId}] Inizio esecuzione..')
+				result = get_features(videoId)
+				voice_frequencies = 'None' if not 'voice_frequencies' in result else result['voice_frequencies']
+				non_voice_frequencies = 'None' if not 'non_voice_frequencies' in result else result['non_voice_frequencies']
+				print(f'[{videoId}] voice_frequencies: ',voice_frequencies)
+				print(f'[{videoId}] non_voice_frequencies: ',non_voice_frequencies)
+				writer.writerow([videoId,voice_frequencies,non_voice_frequencies])
+				output.flush()
+			count += 1
 
 	end = time.time()
 	print(f'End at {time.strftime("%H:%M")}')
