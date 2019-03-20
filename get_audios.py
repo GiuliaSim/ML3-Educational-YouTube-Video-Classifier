@@ -23,8 +23,8 @@ if __name__ == '__main__':
 				os.makedirs(audios_dir)
 
 		for row in csv.reader(input):
-			if count < 4 and row[0] != 'videoId':
+			if count > 200 and row[0] != 'videoId':
 				videoId = row[0].replace('/watch?v=','')
 				get_audio(videoId)
 				print (videoId + ': Audio salvato')
-				count += 1
+			count += 1
