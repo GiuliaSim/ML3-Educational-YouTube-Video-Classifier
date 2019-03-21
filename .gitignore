@@ -19,3 +19,4 @@ data/quotes_clean.csv
 prova.py
 data/aesthetics/dataset_aesthetic_brightness_parziale.csv
 data/join_data.py
+*.txt
