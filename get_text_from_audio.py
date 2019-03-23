@@ -13,7 +13,7 @@ from nltk.corpus import stopwords
 import matplotlib.pyplot as plt
 import operator
 
-OUTPUT_FILE = "data\\dataset_text_analysis.csv"
+OUTPUT_FILE = "data\\dataset_text_analysis_.csv"
 INPUT_FILE = "data\\dataset.csv"
 path_audios="D:\\ProgettoMLSII\\audios\{}\\"
 name_file_audio = "D:\\ProgettoMLSII\\audios\\{}\\{}_temp.wav"
@@ -110,5 +110,4 @@ if __name__ == '__main__':
 				writer.writerow(element)
 				print('scritto videoId = ', videoId)				
 
-	end = time.time()
-	print(f'\nTime to complete: {format_time(start, end)}\n')
+	print(' complete \n')
