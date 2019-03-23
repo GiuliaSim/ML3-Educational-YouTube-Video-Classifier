@@ -15,10 +15,10 @@ import operator
 
 OUTPUT_FILE = "data\\dataset_text_analysis_.csv"
 INPUT_FILE = "data\\dataset.csv"
-path_audios="D:\\ProgettoMLSII\\audios\{}\\"
-name_file_audio = "D:\\ProgettoMLSII\\audios\\{}\\{}_temp.wav"
-name_frame_file_audio = "D:\\ProgettoMLSII\\audios\\{}\\{}_frame\\{}_{}.wav"
-path_frames_audio = "D:\\ProgettoMLSII\\audios\\{}\\{}_frame\\"
+path_audios="audios\\{}\\"
+name_file_audio = "audios\\{}\\{}_temp.wav"
+name_frame_file_audio = "audios\\{}\\{}_frame\\{}_{}.wav"
+path_frames_audio = "audios\\{}\\{}_frame\\"
 
 def get_text(videoId):
 	path_audio = name_file_audio.format(videoId,videoId)
@@ -96,18 +96,25 @@ def get_analisi_testo(path_text):
 
 if __name__ == '__main__':
 	start = time.time()
-	with open(INPUT_FILE, encoding="utf8") as input , open(OUTPUT_FILE, 'w', newline='') as output:
+	with open(INPUT_FILE, encoding="utf8") as input , open(OUTPUT_FILE, 'a', newline='') as output:
 		writer = csv.writer(output, delimiter=",")
 		header = ['videoId','work frequency']
-		writer.writerow(header)
+		#writer.writerow(header)
+		count = 0
 		for row in csv.reader(input):
-			if row[0] != 'videoId':
+			if count > 365 and row[0] != 'videoId':
 				print(f'Inizio testo at {time.strftime("%H:%M")}')
 				results = []
 				videoId = row[0].replace('/watch?v=','')
 				result = get_text(videoId)
 				element = [videoId, result]
 				writer.writerow(element)
-				print('scritto videoId = ', videoId)				
+				print('scritto videoId = ', videoId)
+			count += 1				
 
+<<<<<<< HEAD
 	print(' complete \n')
+=======
+	end = time.time()
+	#print(f'\nTime to complete: {format_time(start, end)}\n')
+>>>>>>> cbff29bfc7d25490789805c19d94f4a2403e913d
