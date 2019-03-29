@@ -1,5 +1,4 @@
 import sys
-sys.path.append("..") 
 from features.get_entropy import get_entropy
 import cv2
 import os

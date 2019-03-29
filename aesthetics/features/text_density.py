@@ -7,8 +7,8 @@ import cv2
 import os
 import statistics
 
-frames_dir = "..\\frames\\{}\\"
-EAST_PATH = "..\\frozen_east_text_detection.pb"
+frames_dir = "..\\..\\frames\\{}\\"
+EAST_PATH = "..\\..\\frozen_east_text_detection.pb"
 
 def get_text_density_frame(image_path):
 	image = cv2.imread(image_path)

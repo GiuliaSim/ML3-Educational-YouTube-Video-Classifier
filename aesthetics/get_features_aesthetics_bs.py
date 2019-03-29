@@ -1,5 +1,4 @@
 import sys
-sys.path.append("..") 
 from features.get_bg_simplicity import get_simplicity_feature
 import cv2
 import os

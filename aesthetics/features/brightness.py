@@ -2,7 +2,7 @@ import cv2
 import os
 import statistics
 
-frames_dir = "..\\frames\\{}\\"
+frames_dir = "..\\..\\frames\\{}\\"
 
 def get_brightness_frame(image_path):
 	image = cv2.imread(image_path)

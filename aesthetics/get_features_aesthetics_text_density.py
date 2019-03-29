@@ -1,5 +1,4 @@
 import sys
-sys.path.append("..") 
 from features.text_density import get_text_density
 import cv2
 import os

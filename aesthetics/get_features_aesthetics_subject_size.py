@@ -1,5 +1,4 @@
 import sys
-sys.path.append("..") 
 from features.subject_size import get_subject_size
 import cv2
 import os

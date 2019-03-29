@@ -1,5 +1,4 @@
 import sys
-sys.path.append("..") 
 from features.get_background_ratio import get_background_lightning_ratio
 import cv2
 import os

@@ -5,7 +5,7 @@ import math
 import statistics
 import cv2 as cv2
 
-frames_dir = "..\\frames\\{}\\"
+frames_dir = "..\\..\\frames\\{}\\"
 
 def get_simplicity_feature(videoId):
 	b = []

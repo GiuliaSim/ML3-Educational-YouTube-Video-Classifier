@@ -5,9 +5,7 @@ import os
 import statistics
 
 
-
-
-frames_dir = "..\\frames\\{}\\"
+frames_dir = "..\\..\\frames\\{}\\"
 
 def get_entropy(videoId):
     b = []

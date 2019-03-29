@@ -1,5 +1,4 @@
 import sys
-sys.path.append("..")
 from features.brightness import get_brightness
 import cv2
 import os

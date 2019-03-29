@@ -4,7 +4,7 @@ import math
 import statistics
 import cv2 as cv2
 
-frames_dir = "..\\frames\\{}\\"
+frames_dir = "..\\..\\frames\\{}\\"
 file_name="temp.mp4"
 frameSg_name="temp-fram.jpg"
 
