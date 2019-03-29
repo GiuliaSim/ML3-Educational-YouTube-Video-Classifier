@@ -19,15 +19,15 @@ def format_time(start,end):
 	
 
 if __name__ == '__main__':
-	with open(INPUT_FILE, encoding="utf8") as input, open(OUTPUT_FILE, 'a', newline='') as output:
+	with open(INPUT_FILE, encoding="utf8") as input, open(OUTPUT_FILE, 'w', newline='') as output:
 		writer = csv.writer(output)
-		#writer.writerow(['videoId','text_density'])
+		writer.writerow(['videoId','text_density'])
 		start = time.time()
 		print(f'Start at {time.strftime("%H:%M")}')
 
 		count = 0
 		for row in csv.reader(input):
-			if count >= 227 and row[0] != 'videoId':
+			if row[0] != 'videoId':
 				videoId = row[0].replace('/watch?v=','')
 				t = get_text_density(videoId)
 				print(f'[{videoId}] Text density: ',t)

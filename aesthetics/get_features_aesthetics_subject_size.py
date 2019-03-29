@@ -25,16 +25,16 @@ def get_features(row):
 	return None, None
 
 if __name__ == '__main__':
-	with open(INPUT_FILE, encoding="utf8") as input, open(OUTPUT_FILE_BRIGHTNESS, 'a', newline='') as output:
+	with open(INPUT_FILE, encoding="utf8") as input, open(OUTPUT_FILE_BRIGHTNESS, 'w', newline='') as output:
 		start = time.time()
 		print(f'Start at {time.strftime("%H:%M")}')
 		writer = csv.writer(output)
 		header = ['videoId','brightness']
-		#writer.writerow(header)
+		writer.writerow(header)
 		
 		count = 0
 		for row in csv.reader(input):
-			if count >= 224 and row[0] != 'videoId':
+			if row[0] != 'videoId':
 				videoId, result = get_features(row)
 				element = [videoId, result]
 				writer.writerow(element)
