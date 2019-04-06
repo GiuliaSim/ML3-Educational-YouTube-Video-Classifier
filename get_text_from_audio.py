@@ -112,9 +112,4 @@ if __name__ == '__main__':
 				print('scritto videoId = ', videoId)
 			count += 1				
 
-<<<<<<< HEAD
-	print(' complete \n')
-=======
-	end = time.time()
-	#print(f'\nTime to complete: {format_time(start, end)}\n')
->>>>>>> cbff29bfc7d25490789805c19d94f4a2403e913d
+
