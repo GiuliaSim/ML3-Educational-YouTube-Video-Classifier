@@ -21,3 +21,4 @@ data/aesthetics/dataset_aesthetic_brightness_parziale.csv
 data/join_data.py
 *.txt
 data/convert_type.py
+data/audio/join_data.py
