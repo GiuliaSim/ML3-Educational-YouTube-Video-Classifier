@@ -59,22 +59,3 @@ if __name__ == '__main__':
 			if not os.path.exists("video_temp"):
 				os.makedirs("video_temp")
 			result = executor.map(get_frames, csv.reader(input))
-
-# if __name__ == '__main__':
-# 	with open(INPUT_FILE, encoding="utf8") as input:
-# 		count = 1
-# 		#creazione della folder dove verranno inseriti i frames
-# 		if not os.path.exists("video_temp"):
-# 			os.makedirs("video_temp")
-
-# 		get_frames('CTXcB8w5JQc')
-# 		print ('CTXcB8w5JQc' + ': Frames salvati')
-# 		get_frames('_ZB4aUMVKS0')
-# 		print ('_ZB4aUMVKS0' + ': Frames salvati')
-
-# 		# for row in csv.reader(input):
-# 		# 	if count < 4 and row[0] != 'videoId':
-# 		# 		videoId = row[0].replace('/watch?v=','')
-# 		# 		get_frames(videoId)
-# 		# 		print (videoId + ': Frames salvati')
-# 		# 		count += 1

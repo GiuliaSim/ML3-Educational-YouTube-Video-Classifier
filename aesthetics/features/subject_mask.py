@@ -4,7 +4,7 @@ import statistics
 
 frames_dir = "..\\..\\frames\\{}\\"
 
-def get_subject_size_frame(image_path):
+def get_subject_mask_frame(image_path):
 	image = cv2.imread(image_path)
 
 	height, width, channels = image.shape
@@ -32,13 +32,13 @@ def get_subject_size_frame(image_path):
 	#cv2.waitKey(0)
 	return ratio
 
-def get_subject_size(videoId):
+def get_subject_mask(videoId):
 	s = []
 	if os.path.exists(frames_dir.format(videoId)):
 		for file in os.listdir(frames_dir.format(videoId)):
 			if file.endswith(".bmp"):
 				image_path = os.path.join(frames_dir.format(videoId), file)
-				s.append(get_subject_size_frame(image_path))
+				s.append(get_subject_mask_frame(image_path))
 	
 	mean = (statistics.mean(s) if s else 'None')
 	return mean

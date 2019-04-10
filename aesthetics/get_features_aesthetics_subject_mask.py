@@ -1,5 +1,5 @@
 import sys
-from features.subject_size import get_subject_size
+from features.subject_mask import get_subject_mask
 import cv2
 import os
 import csv
@@ -8,7 +8,7 @@ import time
 INPUT_FILE = "..\\data\\dataset.csv"
 frames_dir = "..\\frames\\{}\\"
 frame_name = "{}{}.bmp"
-OUTPUT_FILE_BRIGHTNESS = "..\\data\\aesthetics\\dataset_aesthetic_subject_size.csv"
+OUTPUT_FILE_BRIGHTNESS = "..\\data\\aesthetics\\dataset_aesthetic_subject_mask.csv"
 
 def format_time(start,end):
 	hours, rem = divmod(end-start, 3600)
@@ -19,8 +19,8 @@ def format_time(start,end):
 def get_features(row):
 	if row[0] != 'videoId':
 		videoId = row[0].replace('/watch?v=','')
-		s = get_subject_size(videoId)
-		print(f'[{videoId}] Subject Size: ',s)
+		s = get_subject_mask(videoId)
+		print(f'[{videoId}] Subject Mask: ',s)
 		return videoId, s
 	return None, None
 
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 		start = time.time()
 		print(f'Start at {time.strftime("%H:%M")}')
 		writer = csv.writer(output)
-		header = ['videoId','brightness']
+		header = ['videoId','subject_mask']
 		writer.writerow(header)
 		
 		count = 0
