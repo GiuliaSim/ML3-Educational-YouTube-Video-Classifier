@@ -8,7 +8,7 @@ frames_dir = "..\\..\\frames\\{}\\"
 file_name="temp.mp4"
 frameSg_name="temp-fram.jpg"
 
-def get_background_lightning_ratio(videoId):
+def get_subject_contrast(videoId):
     b = []
     if os.path.exists(frames_dir.format(videoId)):
 	    for file in os.listdir(frames_dir.format(videoId)):

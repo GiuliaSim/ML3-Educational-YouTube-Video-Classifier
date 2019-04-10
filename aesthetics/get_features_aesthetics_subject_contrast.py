@@ -1,5 +1,5 @@
 import sys
-from features.get_background_ratio import get_background_lightning_ratio
+from features.get_subject_contrast import get_subject_contrast
 import cv2
 import os
 import csv
@@ -21,16 +21,16 @@ def format_time(start,end):
 if __name__ == '__main__':
 	with open(INPUT_FILE, encoding="utf8") as input, open(OUTPUT_FILE, 'w+', newline='') as output:
 		writer = csv.writer(output)
-		writer.writerow(['videoId','background_lightning_ratio'])
+		writer.writerow(['videoId','subject_contrast'])
 		start = time.time()
 		print(f'Start at {time.strftime("%H:%M")}')
 
 		for row in csv.reader(input):
 			if row[0] != 'videoId':
 				videoId = row[0].replace('/watch?v=','')
-				br = get_background_lightning_ratio(videoId)
-				print(f'[{videoId}] Background Lightning Ratio: ',br)
-				writer.writerow([videoId,br])
+				sc = get_subject_contrast(videoId)
+				print(f'[{videoId}] Subject Contrast: ',sc)
+				writer.writerow([videoId,sc])
 
 		end = time.time()
 		print(f'End at {time.strftime("%H:%M")}')
