@@ -24,4 +24,4 @@ Di seguito sono elencate e descritte brevemente le features relativi ai viedeo e
 
 Di seguito è riportato il grafico riportante al percentuale di accuratezza della rete neurale per il classficato realizzato.
 
-![alt text](https://github.com/GiuliaSim/ML3-Educational-YouTube-Video-Classifier/blob/master/piePlot_1.png)
+![alt text](https://github.com/GiuliaSim/ML3-Educational-YouTube-Video-Classifier/blob/master/classifer/Plot/piePlot_1.png)
